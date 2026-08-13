@@ -4,7 +4,7 @@ import { useLang } from '../lib/useLang'
 import { toggleDark, applyDark } from '../theme'
 import { exportAllData } from '../lib/export'
 
-export default function SettingsModal({ closeModal }: { closeModal: () => void }) {
+export default function SettingsModal({ closeModal, onDiscovery }: { closeModal: () => void; onDiscovery: () => void }) {
   const lang = useLang()
   const [exportStatus, setExportStatus] = useState<'idle' | 'done' | 'failed'>('idle')
   useEffect(() => { applyDark() }, [])
@@ -48,6 +48,10 @@ export default function SettingsModal({ closeModal }: { closeModal: () => void }
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
             <span>{t('settings-notifications')}</span>
             <span style={{ marginLeft: 'auto' }}><span style={{ width: 40, height: 22, background: 'var(--accent)', borderRadius: 14, display: 'inline-block', position: 'relative' }}><span style={{ position: 'absolute', right: 3, top: 2, width: 18, height: 18, borderRadius: '50%', background: '#fff' }}></span></span></span>
+          </div>
+          <div className="profile-menu-item glass-surface" onClick={onDiscovery}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+            <span>{t('settings-discovery')}</span> <span className="arrow">→</span>
           </div>
           <div className="profile-menu-item glass-surface" onClick={onExport}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>

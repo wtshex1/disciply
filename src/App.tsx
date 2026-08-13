@@ -21,6 +21,7 @@ import Facial from './pages/Facial'
 import AddItem from './pages/AddItem'
 import SettingsModal from './components/SettingsModal'
 import WorkoutModal from './components/WorkoutModal'
+import { loadProfile } from './lib/profile'
 
 export type View =
   | { page: 'home' }
@@ -38,7 +39,9 @@ export type ModalId = 'settings' | 'workout' | null
 
 export default function App() {
   useLang()
-  const [stage, setStage] = useState<'onboarding' | 'profile' | 'main'>('onboarding')
+  const [stage, setStage] = useState<'onboarding' | 'profile' | 'main'>(() =>
+    loadProfile() ? 'main' : 'onboarding'
+  )
   const [view, setView] = useState<View>({ page: 'home' })
   const [modal, setModal] = useState<ModalId>(null)
   const [fabMenu, setFabMenu] = useState(false)
@@ -149,7 +152,7 @@ export default function App() {
       )}
 
       {modal === 'workout' && <WorkoutModal closeModal={closeModal} />}
-      {modal === 'settings' && <SettingsModal closeModal={closeModal} />}
+      {modal === 'settings' && <SettingsModal closeModal={closeModal} onDiscovery={() => { setStage('onboarding'); setView({ page: 'home' }) }} />}
 
       <div className="bottom-nav glass-nav" id="bottomNav" style={{ display: 'flex' }}>
         <button className={view.page === 'home' ? 'active' : ''} data-tab="home" onClick={() => setView({ page: 'home' })}>
