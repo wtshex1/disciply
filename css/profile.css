@@ -1,0 +1,190 @@
+/* profile-setup screen + shared avatar photo helpers */
+
+.profile-quote {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-style: italic;
+  text-align: center;
+  max-width: 260px;
+  line-height: 1.5;
+}
+
+.hero-card .profile-quote {
+  text-align: left;
+  margin-top: 4px;
+  max-width: 220px;
+}
+
+.profile-header .avatar {
+  position: relative;
+}
+
+.avatar-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--bg-tertiary);
+}
+
+.profile-setup {
+  position: absolute;
+  inset: 0;
+  z-index: 2500;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-primary);
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.profile-setup.active {
+  display: flex;
+}
+
+.ps-card {
+  width: 100%;
+  max-width: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 32px 24px 24px;
+  text-align: center;
+}
+
+.ps-avatar {
+  position: relative;
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  background: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 12px 32px -12px rgba(0, 0, 0, 0.35);
+  overflow: visible;
+  flex-shrink: 0;
+}
+
+.ps-avatar .ps-face {
+  font-size: 36px;
+  color: var(--text-muted);
+}
+
+.ps-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.ps-cam {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--bg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+  border: 3px solid var(--bg-primary);
+}
+
+.ps-name {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 16px;
+  font-weight: 600;
+  font-family: var(--font);
+  text-align: center;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.ps-name:focus {
+  border-color: var(--accent);
+}
+
+.ps-name::placeholder {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.ps-continue {
+  width: 100%;
+  padding: 15px;
+  border-radius: var(--radius-md);
+  border: none;
+  background: var(--accent);
+  color: var(--bg-primary);
+  font-size: 16px;
+  font-weight: 600;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.ps-continue:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.ps-continue:active {
+  transform: translateY(0);
+}
+
+.ps-skip {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-family: var(--font);
+  cursor: pointer;
+  padding: 8px 12px;
+}
+
+.ps-skip:hover {
+  color: var(--text-secondary);
+}
+
+.ps-hint {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  max-width: 240px;
+}
+
+.ps-name-display {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.ps-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.ps-sep {
+  width: 1px;
+  height: 14px;
+  background: var(--border);
+}

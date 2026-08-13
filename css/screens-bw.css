@@ -1,0 +1,173 @@
+/* ============================================================
+   App pages — Black & White (like onboarding)
+   White page background, black cards, white text.
+   ============================================================ */
+
+.light .page-content .glass-card,
+.light .page-content .glass-surface {
+  --bg-primary: #0A0A0A;
+  --bg-secondary: #151515;
+  --bg-tertiary: #1F1F1F;
+  --text-primary: #FFFFFF;
+  --text-secondary: rgba(255, 255, 255, 0.72);
+  --text-muted: rgba(255, 255, 255, 0.5);
+  --border: rgba(255, 255, 255, 0.14);
+  --accent: #FFFFFF;
+  --accent-rgb: 255, 255, 255;
+  --success: #FFFFFF;
+  --warning: #FFFFFF;
+  --danger: #FFFFFF;
+  color: #FFFFFF;
+  background: #0A0A0A;
+  border-color: rgba(255, 255, 255, 0.12);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.light .page-content .glass-card {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12), 0 12px 40px rgba(0, 0, 0, 0.1);
+}
+.light .page-content .glass-surface {
+  background: #151515;
+}
+.light .page-content .glass-surface:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* chips, badges, inputs inside these cards */
+.light .page-content .glass-chip {
+  background: rgba(255, 255, 255, 0.1);
+}
+.light .page-content .glass-badge {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.light .page-content .glass-input {
+  background: #151515;
+  color: #FFFFFF;
+}
+.light .page-content .glass-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* selected pills: white bg needs black text */
+.light .page-content .life-tab.on,
+.light .page-content .icon-pick.on,
+.light .page-content .term-chip.on,
+.light .page-content .facial-chip.on,
+.light .page-content .em-cat.on,
+.light .page-content .em-pick.on,
+.light .page-content .cal-day.on {
+  color: #0A0A0A;
+}
+.light .page-content .em-pick {
+  background: transparent;
+}
+.light .page-content .em-pick.on {
+  background: #FFFFFF;
+}
+.light .page-content .em-pick.on svg {
+  color: #0A0A0A;
+}
+.light .page-content .emoji-picker {
+  background: #151515;
+  border-color: rgba(255, 255, 255, 0.14);
+}
+.light .page-content .stepper {
+  background: #0A0A0A;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.light .page-content .stp-val {
+  color: #FFFFFF;
+}
+.light .page-content .name-desc .ni input,
+.light .page-content .name-desc .ni textarea {
+  background: #151515;
+  color: #FFFFFF;
+  border-color: rgba(255, 255, 255, 0.14);
+}
+.light .page-content .name-desc .ni input::placeholder,
+.light .page-content .name-desc .ni textarea::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+.light .page-content .name-desc .ni input:focus,
+.light .page-content .name-desc .ni textarea:focus {
+  border-color: #FFFFFF;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.15);
+}
+.light .page-content .cal {
+  border-color: rgba(255, 255, 255, 0.14);
+}
+.light .page-content .cal-day.on {
+  color: #0A0A0A;
+}
+
+/* module rows on Home keep their own black treatment consistent */
+.light .page-content .objective-item.life-mod {
+  background: #0A0A0A;
+}
+.light .page-content .objective-item.life-mod .obj-tag {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* neutral accents -> white */
+.light .page-content .hero-habit.on {
+  color: #FFFFFF;
+  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.08);
+}
+.light .page-content .goal-term {
+  background: rgba(255, 255, 255, 0.12);
+  color: #FFFFFF;
+}
+.light .page-content .goal-term.tshort {
+  background: rgba(255, 255, 255, 0.2);
+}
+.light .page-content .goal-term.tlong {
+  background: rgba(255, 255, 255, 0.06);
+}
+.light .page-content .obj-tag.health,
+.light .page-content .obj-tag.mind,
+.light .page-content .obj-tag.productivity {
+  background: rgba(255, 255, 255, 0.12);
+  color: #FFFFFF;
+}
+.light .page-content .meal-adj.del {
+  color: #FFFFFF;
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* fully white background — no gray gradients, no ghost circles */
+.light .page-content {
+  background-image: none;
+}
+.light .page-content::after {
+  display: none;
+}
+
+/* ============================================================
+   Floating rounded bottom nav (light theme)
+   ============================================================ */
+.light .bottom-nav.glass-nav {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 16px;
+  top: auto;
+  height: 58px;
+  border-radius: 30px;
+  background: #0A0A0A;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  padding: 0;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+.light .bottom-nav button {
+  color: rgba(255, 255, 255, 0.55);
+}
+.light .bottom-nav button.active {
+  color: #FFFFFF;
+}
+.light .main-shell {
+  padding-bottom: 84px;
+}

@@ -1,0 +1,46 @@
+html.dark body{background:#000}
+html.dark html.standalone:not(.app-mode) body{background:radial-gradient(ellipse 900px 700px at 50% 30%,rgba(255,255,255,0.03),transparent 70%),#000}
+
+html.dark .glass-surface{background:rgba(255,255,255,0.02)}
+html.dark .glass-card{background:linear-gradient(135deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01))}
+html.dark .glass-modal{background:linear-gradient(180deg,rgba(6,6,8,0.96),rgba(0,0,0,0.98))}
+html.dark .glass-nav{background:rgba(0,0,0,0.85)}
+
+html.dark .hero-card{background:linear-gradient(135deg,#0A0A0C,#000)}
+html.dark .card{box-shadow:0 4px 24px rgba(0,0,0,0.65)}
+html.dark .fab{box-shadow:0 6px 24px rgba(0,0,0,0.5)}
+
+html.dark .status-bar{background:rgba(0,0,0,0.85);border-color:rgba(255,255,255,0.12);color:#F4F4F6}
+
+html.dark .modal-handle{background:#6E6E7A}
+
+html.dark .deco-ring{border-color:rgba(255,255,255,0.10)}
+html.dark .deco-ring.r2{border-color:rgba(255,255,255,0.08)}
+
+html.dark .objective-item:hover{border-color:#3A3A45}
+html.dark .habit-item:hover{border-color:#3A3A45}
+html.dark .profile-menu-item:hover{border-color:#3A3A45}
+
+html.dark .onboarding .dots span{background:#6B6B76}
+
+html.dark .mode-card.selected{background:#0C0C10}
+html.dark .mode-rec{background:rgba(255,255,255,0.08)}
+html.dark .mode-card.selected .mode-rec{background:rgba(255,255,255,0.14)}
+
+html.dark .quiz-progress-fill{background:linear-gradient(90deg,var(--accent),var(--accent-hover))}
+
+html.dark .q-opt.selected{background:var(--accent);color:#0a0a0a}
+html.dark .q-opt.selected:hover{background:#D0D0D5}
+html.dark .q-opt.selected .q-opt-num{background:rgba(0,0,0,0.12);border-color:rgba(0,0,0,0.2);color:var(--bg-primary)}
+html.dark .q-opt.selected .q-opt-check{color:var(--bg-primary)}
+
+#darkSwitch{
+  width:40px;height:22px;background:var(--bg-tertiary);border-radius:14px;
+  display:inline-block;position:relative;flex-shrink:0;transition:background .25s
+}
+#darkKnob{
+  position:absolute;left:3px;top:2px;width:18px;height:18px;border-radius:50%;
+  background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.3);transition:left .25s
+}
+html.dark #darkSwitch{background:var(--accent)}
+html.dark #darkKnob{left:19px;background:var(--bg-primary)}

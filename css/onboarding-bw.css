@@ -1,0 +1,68 @@
+/* ============================================================
+   Onboarding — Black & White (user preference)
+   Only affects the intro / quiz screens in the light theme.
+   ============================================================ */
+
+.light .mode-card {
+  background: #0A0A0A;
+  border-color: rgba(255, 255, 255, 0.14);
+  color: #FFFFFF;
+}
+.light .mode-card .mode-desc {
+  color: rgba(255, 255, 255, 0.6);
+}
+.light .mode-card .mode-count {
+  color: #FFFFFF;
+}
+.light .mode-card .mode-rec {
+  background: rgba(255, 255, 255, 0.14);
+  color: #FFFFFF;
+}
+.light .mode-card.selected {
+  border-color: #FFFFFF;
+  border-width: 2px;
+  background: #0A0A0A;
+  box-shadow: none;
+}
+.light .mode-radio {
+  border-color: rgba(255, 255, 255, 0.35);
+}
+.light .mode-card.selected .mode-radio {
+  border-color: #FFFFFF;
+}
+.light .q-opt {
+  background: #0A0A0A;
+  border-color: rgba(255, 255, 255, 0.14);
+  color: #FFFFFF;
+}
+.light .q-opt .q-opt-num {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.7);
+}
+.light .q-opt.selected {
+  background: #FFFFFF;
+  border-color: #FFFFFF;
+  color: #0A0A0A;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+.light .q-opt.selected .q-opt-num {
+  background: rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.2);
+  color: #0A0A0A;
+}
+.light .q-opt.selected .q-opt-check {
+  color: #0A0A0A;
+}
+.light .q-opt.selected:hover {
+  background: #F2F2F2;
+}
+.light .nav-row .back {
+  background: #0A0A0A;
+  border-color: #0A0A0A;
+  color: #FFFFFF;
+}
+.light .nav-row .back:hover {
+  background: #1A1A1A;
+  color: #FFFFFF;
+}

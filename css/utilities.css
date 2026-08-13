@@ -1,0 +1,103 @@
+/* utilities.css — shared micro-classes extracted from inline styles
+   Values are byte-identical to the original style="" attributes. */
+
+.u-muted13 {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+.u-muted10 {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+.u-col-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.u-field-row {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+.u-input-row {
+  flex: 1;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-family: var(--font);
+  text-align: right;
+  outline: none;
+}
+.u-input {
+  flex: 1;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-family: var(--font);
+  outline: none;
+}
+.u-mt8 {
+  margin-top: 8px;
+}
+.u-mt12 {
+  margin-top: 12px;
+}
+.u-ghost-btn {
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  font-family: var(--font);
+  cursor: pointer;
+}
+.u-btn-sm {
+  padding: 6px 12px;
+  font-size: 13px;
+}
+.u-section-h {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.u-accent {
+  color: var(--accent);
+}
+.u-accent-sm {
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 600;
+}
+.u-row {
+  display: flex;
+  gap: 8px;
+}
+.u-field {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+.u-warn {
+  color: var(--warning);
+  font-size: 12px;
+  font-weight: 600;
+}
+.u-bold {
+  color: var(--text-primary);
+  font-weight: 600;
+}

@@ -1,0 +1,93 @@
+.mockup-scene{
+  display:flex;align-items:center;justify-content:center;min-height:100vh;
+  padding:24px;perspective:1000px
+}
+.phone{
+  width:393px;height:852px;border-radius:55px;
+  background:var(--bg-primary);
+  border:1px solid rgba(255,255,255,0.14);
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,0.85),
+    0 0 0 8px rgba(24,24,28,0.96),
+    0 0 0 9px rgba(255,255,255,0.07),
+    0 12px 28px rgba(0,0,0,0.4),
+    0 28px 72px rgba(0,0,0,0.55);
+  position:relative;overflow:hidden;display:flex;flex-direction:column;
+  transform:rotateY(-2deg) rotateX(1deg);
+  transition:transform .4s ease
+}
+.phone:hover{transform:rotateY(0deg) rotateX(0deg)}
+.phone::after{
+  content:'';position:absolute;inset:0;border-radius:55px;pointer-events:none;
+  background:linear-gradient(145deg,rgba(255,255,255,0.05) 0%,transparent 40%,transparent 60%,rgba(255,255,255,0.03) 100%);
+  z-index:9999
+}
+.dynamic-island{
+  position:absolute;top:11px;left:50%;transform:translateX(-50%);z-index:1001;
+  width:126px;height:37px;border-radius:20px;background:#000;
+  box-shadow:inset 0 0 6px rgba(0,0,0,0.9)
+}
+.home-indicator{
+  position:absolute;bottom:8px;left:50%;transform:translateX(-50%);z-index:1001;
+  width:134px;height:5px;border-radius:3px;background:rgba(0,0,0,0.85)
+}
+html.dark .home-indicator{background:rgba(255,255,255,0.9)}
+.status-bar{
+  height:58px;padding:0 28px;display:flex;align-items:flex-end;
+  justify-content:space-between;padding-bottom:6px;font-size:13px;
+  font-weight:600;color:var(--text-primary);flex-shrink:0;z-index:1000;
+  position:relative
+}
+.status-bar .time{font-weight:700;letter-spacing:0.02em}
+.status-bar .icons{display:flex;align-items:center;gap:5px}
+.status-bar .icons svg{display:block}
+.screen-area{flex:1;position:relative;overflow:hidden}
+
+.mockup-ambient{
+  position:fixed;inset:0;pointer-events:none;z-index:-1;
+  background:radial-gradient(ellipse 500px 500px at 50% 40%,rgba(255,255,255,0.05),transparent 70%)
+}
+
+/* Standalone page: center the phone when the frame is shown */
+html.standalone:not(.app-mode) body{
+  display:flex;align-items:center;justify-content:center;overflow:auto;
+  background:radial-gradient(ellipse 900px 700px at 50% 30%,rgba(255,255,255,0.05),transparent 70%),#0a0a0c
+}
+html.standalone:not(.app-mode) .mockup-ambient{display:none}
+
+/* Mockup toggle (standalone only) */
+#mockupToggle{
+  position:fixed;top:16px;right:16px;z-index:100000;
+  width:44px;height:44px;border-radius:50%;
+  background:rgba(255,255,255,0.75);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(0,0,0,0.12);
+  box-shadow:0 4px 16px rgba(0,0,0,0.18);
+  display:none;align-items:center;justify-content:center;cursor:pointer;
+  color:#0a0a0a
+}
+html.standalone #mockupToggle{display:flex}
+html.standalone:not(.app-mode) #mockupToggle .ic-full{display:none}
+html.standalone.app-mode #mockupToggle .ic-phone{display:none}
+#mockupToggle svg{width:20px;height:20px}
+
+/* Full-screen app mode: out of the phone mockup (standalone only) */
+html.app-mode .phone{
+  width:100vw;height:100vh;height:100dvh;border-radius:0;border:none;
+  box-shadow:none;transform:none;transition:none
+}
+html.app-mode .phone::after{display:none}
+html.app-mode .dynamic-island{display:none}
+html.app-mode .home-indicator{display:none}
+html.app-mode #statusBar{display:none !important}
+
+/* Phone frame: clear the home indicator (gesture bar) so nothing overlaps it */
+html:not(.app-mode) .bottom-nav{
+  height:82px;padding-bottom:18px
+}
+html:not(.app-mode) .modal-sheet{
+  padding-bottom:34px
+}
+html:not(.app-mode) .fab{
+  bottom:96px
+}

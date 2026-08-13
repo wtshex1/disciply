@@ -1,0 +1,48 @@
+name: Build Android APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-linux-android,armv7-linux-androideabi,i686-linux-android,x86_64-linux-android
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Install NDK
+        run: |
+          sdkmanager --install "ndk;27.3.13750724"
+          echo "NDK_HOME=$ANDROID_HOME/ndk/27.3.13750724" >> $GITHUB_ENV
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
+      - name: Init Android project
+        run: npx tauri android init --ci
+
+      - name: Build APK
+        run: npx tauri android build --apk --target aarch64
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: disciply-android-arm64
+          path: src-tauri/gen/android/app/build/outputs/apk/**/*.apk

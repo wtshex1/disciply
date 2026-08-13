@@ -1,0 +1,106 @@
+@import '../css/tokens.css';
+@import '../css/utilities.css';
+@import '../css/animations.css';
+@import '../css/base.css';
+@import '../css/components.css';
+@import '../css/screens.css';
+@import '../css/quiz.css';
+@import '../css/mockup.css';
+@import '../glass.css';
+@import '../css/profile.css';
+@import '../css/more.css';
+@import '../css/habits.css';
+@import '../css/dark.css';
+@import '../css/onboarding-bw.css';
+@import '../css/screens-bw.css';
+
+.rank-path{
+  display:flex;align-items:flex-start;justify-content:space-between;padding:6px 2px 2px
+}
+.rank-step{
+  display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;position:relative
+}
+.rank-step:not(:last-child)::after{
+  content:'';position:absolute;top:15px;left:calc(50% + 14px);width:calc(100% - 28px);
+  height:2px;background:var(--bg-tertiary)
+}
+.rank-step.done:not(:last-child)::after{background:var(--accent)}
+.rank-dot{
+  width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:var(--bg-tertiary);border:2px solid var(--border);color:var(--text-muted);
+  font-size:11px;font-weight:800;transition:all .25s;z-index:1
+}
+.rank-step.done .rank-dot{background:var(--accent);border-color:var(--accent);color:#fff}
+.rank-step.current .rank-dot{
+  border-color:var(--accent);color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb, var(--accent) 15%, transparent)
+}
+.rank-name{font-size:9px;color:var(--text-muted);text-align:center;line-height:1.2;max-width:52px}
+.rank-step.done .rank-name{color:var(--text-secondary)}
+.rank-step.current .rank-name{color:var(--accent);font-weight:700}
+.rank-current{
+  display:flex;flex-direction:column;align-items:center;gap:2px;margin-top:12px;text-align:center
+}
+.rank-cur-name{font-size:15px;font-weight:800;color:var(--text-primary)}
+.progress-badge-wrap{display:flex;justify-content:center;margin:10px 0 2px}
+.progress-badge{
+  font-size:12px;font-weight:700;color:var(--text-secondary);letter-spacing:0.02em;
+  background:var(--bg-tertiary);border:1px solid var(--border);border-radius:999px;padding:6px 14px
+}
+.blk-summary{display:flex;justify-content:center;margin:10px 0 0}
+.blk-summary span{
+  font-size:12px;font-weight:600;color:var(--text-secondary);
+  background:var(--bg-tertiary);border:1px solid var(--border);border-radius:999px;padding:5px 14px
+}
+.blk-actions{display:flex;justify-content:center;gap:10px;margin:10px 0 2px}
+.blk-avatar{
+  width:32px;height:32px;border-radius:9px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--bg-tertiary);border:1px solid var(--border);overflow:hidden
+}
+.blk-avatar-img{width:18px;height:18px;object-fit:contain}
+.fc-switch{
+  width:40px;height:22px;background:var(--bg-tertiary);border-radius:14px;
+  display:inline-block;position:relative;flex-shrink:0;cursor:pointer;
+  transition:background .25s;border:1px solid var(--border)
+}
+.fc-switch .fc-knob{
+  position:absolute;left:2px;top:1px;width:18px;height:18px;border-radius:50%;
+  background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.3);transition:left .25s
+}
+.fc-switch.on{background:var(--accent);border-color:var(--accent)}
+.fc-switch.on .fc-knob{left:19px}
+.facial-timer{
+  font-size:52px;font-weight:900;font-variant-numeric:tabular-nums;
+  text-align:center;color:var(--text-primary);letter-spacing:-0.02em;line-height:1
+}
+.facial-ex-name{font-size:18px;font-weight:700;text-align:center;color:var(--text-primary);margin-top:8px}
+.facial-rest{
+  text-align:center;font-size:13px;font-weight:600;color:var(--accent);margin-top:10px
+}
+.facial-paused{
+  text-align:center;font-size:13px;font-weight:700;color:var(--text-muted);margin-top:10px
+}
+.facial-total{
+  text-align:center;font-size:13px;color:var(--text-muted);margin-top:12px;font-variant-numeric:tabular-nums
+}
+.facial-actions{display:flex;justify-content:center;gap:10px;margin-top:4px}
+.facial-row{
+  display:flex;align-items:center;gap:10px;padding:10px 4px;cursor:pointer;
+  border-radius:10px;transition:background .15s
+}
+.facial-row:hover{background:var(--bg-tertiary)}
+.facial-row .facial-name{flex:1;font-size:14px;font-weight:500;color:var(--text-primary)}
+.facial-dur{
+  border:1px solid var(--border);background:var(--bg-tertiary);color:var(--text-secondary);
+  border-radius:999px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;
+  font-variant-numeric:tabular-nums;font-family:var(--font)
+}
+.facial-row.on .facial-dur{color:var(--accent);border-color:color-mix(in srgb, var(--accent) 40%, transparent)}
+.facial-add-form{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+.facial-dur-chips{display:flex;gap:8px}
+.facial-chip{
+  flex:1;border:1px solid var(--border);background:var(--bg-tertiary);color:var(--text-secondary);
+  border-radius:999px;padding:8px 0;font-size:12px;font-weight:700;cursor:pointer;
+  font-variant-numeric:tabular-nums;font-family:var(--font);transition:all .15s
+}
+.facial-chip.on{background:var(--accent);border-color:var(--accent);color:#fff}

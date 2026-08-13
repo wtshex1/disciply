@@ -1,0 +1,897 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Disciply — Dezvoltă-ți disciplina</title>
+<script src="js/launch.js"></script>
+<script src="js/theme.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/utilities.css">
+<link rel="stylesheet" href="css/animations.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/screens.css">
+<link rel="stylesheet" href="css/quiz.css">
+<link rel="stylesheet" href="css/mockup.css">
+<link rel="stylesheet" href="glass.css">
+<link rel="stylesheet" href="css/profile.css">
+<link rel="stylesheet" href="css/more.css">
+<link rel="stylesheet" href="css/habits.css">
+<link rel="stylesheet" href="css/dark.css">
+</head>
+<body class="light">
+  <button id="mockupToggle" onclick="toggleMockup()" aria-label="Toggle phone frame" title="Phone frame / Full screen">
+    <svg class="ic-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg>
+    <svg class="ic-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+  </button>
+  <div class="mockup-ambient"></div>
+
+<div class="phone light" id="app">
+  <div class="dynamic-island"></div>
+
+  <!-- Status bar -->
+  <div class="status-bar" id="statusBar">
+    <span class="time">9:41</span>
+    <div class="icons">
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="none" aria-hidden="true"><rect x="0.5" y="1" width="13" height="10" rx="2" stroke="currentColor" stroke-opacity=".6"/><rect x="14" y="4" width="1.5" height="4" rx="0.5" fill="currentColor" fill-opacity=".4"/><rect x="2" y="3" width="2" height="6" rx="0.5" fill="currentColor" fill-opacity=".6"/><rect x="4.5" y="2" width="2" height="8" rx="0.5" fill="currentColor" fill-opacity=".8"/><rect x="7" y="2" width="2" height="8" rx="0.5" fill="currentColor"/><rect x="9.5" y="3" width="2" height="6" rx="0.5" fill="currentColor" fill-opacity=".7"/></svg>
+    </div>
+  </div>
+
+  <!-- Screen area -->
+  <div class="screen-area">
+
+    <!-- ONBOARDING -->
+    <div class="onboarding active" id="onboarding" data-od-id="onboarding">
+      <button class="lang-toggle lang-toggle-float" onclick="toggleLang()" aria-label="Language">
+        <span data-lt="en">EN</span><span class="lt-sep">/</span><span data-lt="ro">RO</span>
+      </button>
+      <button class="skip-float" onclick="skipOnboarding()" data-i18n="btn-skip">Skip</button>
+      <div class="slide-wrap">
+        <div class="slide active" data-slide="0">
+          <div class="illustration"><img src="images/app-logo.png" alt="Disciply" style="width:132px;height:132px;object-fit:contain;filter:drop-shadow(0 8px 40px rgba(0,0,0,0.12))"></div>
+          <h1 data-i18n="onboarding-welcome-title">Discover your potential</h1>
+          <p data-i18n="onboarding-welcome-sub">Choose your depth, answer science-based questions across 6 dimensions and get your personal Potential Score.</p>
+          <div class="quiz-meta">
+            <span class="quiz-meta-chip" data-i18n="onboarding-chip-dim">6 dimensions</span>
+            <span class="quiz-meta-chip" data-i18n="onboarding-chip-q">20–100 questions</span>
+            <span class="quiz-meta-chip" data-i18n="onboarding-chip-time">≈ 1–6 min</span>
+          </div>
+        </div>
+
+        <div class="slide" data-slide="1">
+          <div class="mode-head quiz-enter">
+            <span class="q-chip" style="background:#0A0A0A12;color:#0A0A0A;border-color:#0A0A0A33" data-i18n="onboarding-mode-step">Step 1 · Choose your depth</span>
+            <h2 class="q-title mode-title" data-i18n="onboarding-mode-title">How deep do you want to go?</h2>
+            <p class="mode-sub" data-i18n="onboarding-mode-sub">All modes cover all 6 dimensions. More questions = a more precise score.</p>
+          </div>
+          <div class="mode-list" id="modeList"></div>
+          <p class="mode-meta" id="modeMeta" data-i18n="mode-meta-init">50 questions · ~3 min · all 6 dimensions covered</p>
+        </div>
+
+        <div class="slide" data-slide="2">
+          <div class="quiz-stage" id="quizStage"></div>
+        </div>
+
+        <div class="slide" data-slide="3">
+          <div class="result-sphere-wrap">
+            <div class="result-ring-wrap">
+              <svg class="result-ring-svg" viewBox="0 0 100 100">
+                <circle class="result-ring-bg" cx="50" cy="50" r="42"/>
+                <circle class="result-ring-fg" cx="50" cy="50" r="42" style="stroke-dasharray:264;stroke-dashoffset:264"/>
+              </svg>
+              <div class="result-center">
+                <span class="sphere-pct" id="resultOverall">0</span>
+                <span class="sphere-label" data-i18n="result-overall">overall</span>
+              </div>
+            </div>
+          </div>
+          <h1 id="resultTitle">Your Potential</h1>
+          <p id="resultDesc" style="color:var(--text-secondary);font-size:14px;line-height:1.5">See where you stand.</p>
+          <div class="result-bars" id="resultBars"></div>
+          <p class="result-note" id="resultNote">Scored on a balanced 4-point scale with reverse-scored items — dimensions derived from validated constructs (ERQ, SCS, Grit, Dweck, AMS, Big Five).</p>
+        </div>
+      </div>
+      <div class="nav-row">
+        <button class="back" id="backBtn" onclick="prevSlide()" aria-label="Back">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+        </button>
+        <button class="next" id="nextBtn" onclick="nextSlide()">Let's Start <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+      </div>
+    </div>
+
+    <!-- PROFILE SETUP -->
+    <div class="profile-setup" id="profileSetup" data-od-id="screen-profile-setup">
+      <div class="deco-ring r1"></div><div class="deco-ring r2"></div>
+      <div class="ps-card glass-card">
+        <h2 id="psTitle">Create your local account</h2>
+        <p class="u-muted13" id="psSub" data-i18n="ps-sub">A local profile, stored only on this device. No account, no internet needed.</p>
+        <div class="ps-avatar">
+          <span class="ps-face" id="psFace">▲</span>
+          <img id="psPhoto" alt="" hidden>
+          <span class="ps-cam" id="psCam" role="button" aria-label="Choose photo" onclick="document.getElementById('psFile').click()">✚</span>
+        </div>
+        <div class="ps-name-display" id="psNameDisplay"></div>
+        <p class="ps-hint" id="psCaption" data-i18n="ps-caption">This is how you&#8217;ll appear in the app.</p>
+        <input type="file" id="psFile" accept="image/*" hidden>
+        <input class="ps-name" id="psName" type="text" maxlength="30" placeholder="Your name" data-i18n-ph="ps-name" autocomplete="off">
+        <input class="ps-name" id="psQuote" type="text" maxlength="90" placeholder="Motivational quote (optional)" data-i18n-ph="ps-quote" autocomplete="off" style="font-size:14px;font-weight:500">
+        <button class="ps-skip" id="psPhotoBtn" onclick="document.getElementById('psFile').click()" data-i18n="ps-photo">Choose photo</button>
+        <button class="ps-continue" id="psMainBtn" onclick="psMainAction()">Continue</button>
+        <div class="ps-row">
+          <button class="ps-skip" id="psSkipBtn" onclick="psSkipAction()" data-i18n="ps-skip">Skip for now</button>
+          <button class="ps-skip" id="psEditBtn" onclick="psEditAction()" data-i18n="settings-edit-profile">Edit Profile</button>
+          <span class="ps-sep" id="psSep"></span>
+          <button class="ps-skip" id="psNewBtn" onclick="psNewAction()" data-i18n="ps-new">New account</button>
+          <button class="ps-skip" id="psCancelBtn" onclick="psCancelAction()" data-i18n="ps-cancel">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN SHELL -->
+    <div class="main-shell" id="mainShell">
+
+      <div class="shell-header glass-surface" id="shellHeader">
+        <h2 id="pageTitle" data-i18n="tab-home">Home</h2>
+      </div>
+
+      <div class="page-content active" id="page-home" data-od-id="screen-home">
+        <div class="deco-ring r1"></div><div class="deco-ring r2"></div>
+
+        <div class="hero-card glass-card">
+          <button class="hero-settings" onclick="openModal('settingsModal')" aria-label="Settings">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+          <div class="hero-avatar">
+            <div class="avatar-ring"></div>
+            <div class="avatar-face" id="heroFace"><span class="avatar-face-icon" id="heroFaceIcon">▲</span><img id="heroPhoto" class="avatar-img" alt="" hidden></div>
+          </div>
+          <div class="hero-info">
+            <div class="hero-name" id="heroName">Alex Rider</div>
+            <div class="profile-quote" id="heroQuote" hidden></div>
+          </div>
+        </div>
+
+        <div class="date-section">
+          <div class="date-label" data-i18n="home-today">Today</div>
+          <div class="date-value" id="dateValue">Luni, 10 august</div>
+          <div class="week-circles" id="weekCircles">
+            <div class="wc-ring">
+              <div class="wc-circle today">L</div>
+              <span class="wc-num">10</span>
+            </div>
+            <div class="wc-ring">
+              <div class="wc-circle">M</div>
+              <span class="wc-num">11</span>
+            </div>
+            <div class="wc-ring">
+              <div class="wc-circle">M</div>
+              <span class="wc-num">12</span>
+            </div>
+            <div class="wc-ring">
+              <div class="wc-circle">J</div>
+              <span class="wc-num">13</span>
+            </div>
+            <div class="wc-ring">
+              <div class="wc-circle">V</div>
+              <span class="wc-num">14</span>
+            </div>
+            <div class="wc-ring">
+              <div class="wc-circle">S</div>
+              <span class="wc-num">15</span>
+            </div>
+            <div class="wc-ring">
+              <div class="wc-circle">S</div>
+              <span class="wc-num">16</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="section-label">
+            <span data-i18n="home-objectives">Objectives</span>
+            <span class="section-count glass-badge" data-i18n="home-objectives-count">3 active</span>
+          </div>
+          <div id="habitList"></div>
+          <div class="objective-item glass-surface" onclick="toggleObjective(this)">
+            <div class="obj-check done"></div>
+            <div class="obj-body">
+              <div class="obj-text" data-i18n="obj-0">Morning Run — 5:30 AM</div>
+              <div class="obj-meta"><span class="obj-tag health glass-chip" data-i18n="tag-health">health</span></div>
+            </div>
+          </div>
+          <div class="objective-item glass-surface u-mt8" onclick="toggleObjective(this)">
+            <div class="obj-check done"></div>
+            <div class="obj-body">
+              <div class="obj-text" data-i18n="obj-1">Read 20 Pages</div>
+              <div class="obj-meta"><span class="obj-tag mind glass-chip" data-i18n="tag-mind">mind</span></div>
+            </div>
+          </div>
+          <div class="objective-item glass-surface u-mt8" onclick="toggleObjective(this)">
+            <div class="obj-check done"></div>
+            <div class="obj-body">
+              <div class="obj-text" data-i18n="obj-2">Meditate — 15 min</div>
+              <div class="obj-meta"><span class="obj-tag mind glass-chip" data-i18n="tag-mind">mind</span></div>
+            </div>
+          </div>
+          <div class="objective-item glass-surface u-mt8" onclick="toggleObjective(this)">
+            <div class="obj-check"></div>
+            <div class="obj-body">
+              <div class="obj-text" data-i18n="obj-3">Study Japanese — 45 min</div>
+              <div class="obj-meta"><span class="obj-tag productivity glass-chip" data-i18n="tag-productivity">productivity</span></div>
+            </div>
+          </div>
+          <div class="objective-item glass-surface u-mt8" onclick="toggleObjective(this)">
+            <div class="obj-check"></div>
+            <div class="obj-body">
+              <div class="obj-text" data-i18n="obj-4">Journal & Reflect</div>
+              <div class="obj-meta"><span class="obj-tag mind glass-chip" data-i18n="tag-mind">mind</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-content" id="page-more" data-od-id="screen-more">
+        <div class="deco-ring r1"></div><div class="deco-ring r2"></div>
+        <div class="more-grid">
+          <div class="more-item glass-card" onclick="openMorePage('workout')">
+            <div class="more-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 9.5v5M4 8v8M20 8v8M22 9.5v5M4 12h16"/></svg></div>
+            <div class="more-info">
+              <span class="more-name" data-i18n="more-workouts">Workouts</span>
+              <span class="u-muted13" data-i18n="more-workouts-desc">Training plans, sets, and reps</span>
+            </div>
+            <span class="arrow">→</span>
+          </div>
+          <div class="more-item glass-card" onclick="openMorePage('nutrition')">
+            <div class="more-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20C4 10 10 4 20 4c0 10-6 16-16 16z"/><path d="M4 20c4-6 8-9 12-11"/></svg></div>
+            <div class="more-info">
+              <span class="more-name" data-i18n="more-nutrition">Nutrition</span>
+              <span class="u-muted13" data-i18n="more-nutrition-desc">Meals, macros, and meal plans</span>
+            </div>
+            <span class="arrow">→</span>
+          </div>
+          <div class="more-item glass-card" onclick="openMorePage('hydration')">
+            <div class="more-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></svg></div>
+            <div class="more-info">
+              <span class="more-name" data-i18n="more-hydration">Hydration</span>
+              <span class="u-muted13" data-i18n="more-hydration-desc">Water intake and reminders</span>
+            </div>
+            <span class="arrow">→</span>
+          </div>
+          <div class="more-item glass-card" onclick="openMorePage('sleep')">
+            <div class="more-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></div>
+            <div class="more-info">
+              <span class="more-name" data-i18n="more-sleep">Sleep</span>
+              <span class="u-muted13" data-i18n="more-sleep-desc">Sleep tracking and wind-down</span>
+            </div>
+            <span class="arrow">→</span>
+          </div>
+          <div class="more-item glass-card" onclick="openMorePage('clock')">
+            <div class="more-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+            <div class="more-info">
+              <span class="more-name" data-i18n="more-clock">Clock</span>
+              <span class="u-muted13" data-i18n="more-clock-desc">Time and stopwatch</span>
+            </div>
+            <span class="arrow">→</span>
+          </div>
+          <div class="more-item glass-card" onclick="openMorePage('agenda')">
+            <div class="more-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div>
+            <div class="more-info">
+              <span class="more-name" data-i18n="more-agenda">Agenda</span>
+              <span class="u-muted13" data-i18n="more-agenda-desc">Events and your day planner</span>
+            </div>
+            <span class="arrow">→</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-content" id="page-workout" data-od-id="screen-workout">
+        <div class="deco-ring r1"></div><div class="deco-ring r2"></div>
+        <div class="sub-top">
+          <button class="sub-back" onclick="closeMorePage()" aria-label="Back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+          </button>
+        </div>
+
+        <div id="wkt-list">
+          <div class="sub-hero glass-card">
+            <div class="more-icon big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 9.5v5M4 8v8M20 8v8M22 9.5v5M4 12h16"/></svg></div>
+            <h3 data-i18n="more-workouts">Workouts</h3>
+            <p class="u-muted13" data-i18n="wkt-hero">Custom workouts with rest timers.</p>
+          </div>
+
+          <div class="card glass-card">
+            <div class="u-section-h" data-i18n="wkt-templates">Templates</div>
+            <div class="wkt-tiles" id="wktTiles"></div>
+          </div>
+
+          <div class="card glass-card">
+            <div class="u-section-h" data-i18n="wkt-mine">My workouts</div>
+            <div id="wktMine"></div>
+            <button class="hyd-btn" onclick="wktNewWorkout()" data-i18n="wkt-new">New workout</button>
+          </div>
+
+          <div class="card glass-card">
+            <div class="u-section-h" data-i18n="wkt-stats">Statistics</div>
+            <div class="hyd-cal-head">
+              <button class="hyd-reset" onclick="wktCalOffsetBy(-1)" aria-label="Previous month">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+              </button>
+              <div class="hyd-cal-title" id="wktCalTitle"></div>
+              <button class="hyd-reset" onclick="wktCalOffsetBy(1)" aria-label="Next month">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+            </div>
+            <div class="hyd-cal-week" id="wktCalWeek"></div>
+            <div class="hyd-cal-grid" id="wktCalGrid"></div>
+            <div class="u-muted13" style="text-align:center;margin-top:10px" id="wktCalStats"></div>
+            <div class="u-section-h" style="margin-top:16px" data-i18n="wkt-recent">Recent workouts</div>
+            <div id="wktRecent"></div>
+          </div>
+        </div>
+
+        <div id="wkt-view" hidden>
+          <div class="card glass-card">
+            <div class="more-icon big" style="margin:0 auto 10px" id="wktViewIcon"></div>
+            <h3 style="text-align:center" id="wktViewName"></h3>
+            <p class="u-muted13" style="text-align:center" id="wktViewCount"></p>
+          </div>
+          <div class="card glass-card">
+            <div class="u-section-h" data-i18n="wkt-exercises">Exercises</div>
+            <div id="wktViewEx"></div>
+            <button class="hyd-btn" onclick="wktStartView()" data-i18n="wkt-start">Start workout</button>
+            <div style="display:flex;gap:10px;margin-top:10px">
+              <button class="hyd-btn alt" id="wktEditBtn" onclick="wktEditWorkout()" data-i18n="wkt-edit">Edit</button>
+              <button class="hyd-reset wkt-btn" onclick="wktDeleteWorkout()" data-i18n="wkt-delete">Delete</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="wkt-editor" hidden>
+          <div class="card glass-card">
+            <div class="u-section-h" data-i18n="wkt-edit-title">Workout details</div>
+            <div class="u-field" style="margin-bottom:12px">
+              <input class="glass-input u-input" type="text" id="wktNameInput" placeholder="Workout name" data-i18n-ph="wkt-name-ph">
+            </div>
+            <div class="u-section-h" style="margin-bottom:8px" data-i18n="wkt-exercises">Exercises</div>
+            <div id="wktExRows"></div>
+            <button class="hyd-btn alt" onclick="wktAddRow()" data-i18n="wkt-add-ex">Add exercise</button>
+            <button class="hyd-btn" style="margin-top:10px" onclick="wktSaveWorkout()" data-i18n="wkt-save">Save workout</button>
+          </div>
+        </div>
+
+        <div id="wkt-session" hidden>
+          <div class="card glass-card">
+            <div class="u-section-h" id="wktSessionName"></div>
+            <div class="wkt-session-timer" id="wktTotalTime">00:00</div>
+            <div style="text-align:center" class="u-muted13" data-i18n="wkt-elapsed">Workout time</div>
+            <div class="wkt-rest" id="wktRestWrap" hidden>
+              <span data-i18n="wkt-rest-title">Rest</span>
+              <span id="wktRest">60s</span>
+            </div>
+            <div class="wkt-pills">
+              <button class="wkt-pill" onclick="wktSetRest(30)">30s</button>
+              <button class="wkt-pill" onclick="wktSetRest(60)">60s</button>
+              <button class="wkt-pill" onclick="wktSetRest(90)">90s</button>
+            </div>
+          </div>
+          <div class="card glass-card">
+            <div class="u-section-h" data-i18n="wkt-exercise">Exercise</div>
+            <div class="wkt-ex-now">
+              <div class="wkt-ex-name" id="wktExName">—</div>
+              <div class="wkt-set-info" id="wktSetInfo">—</div>
+              <div class="wkt-ex-count" id="wktExCount">—</div>
+            </div>
+            <div class="wkt-actions">
+              <button class="hyd-btn" id="wktBtnSet" onclick="wktSetDone()" data-i18n="wkt-set-done">Set done</button>
+              <button class="hyd-btn alt" onclick="wktExDone()" data-i18n="wkt-ex-done">Exercise done</button>
+              <button class="hyd-btn alt" id="wktBtnPause" onclick="wktTogglePause()" data-i18n="wkt-pause">Pause</button>
+              <button class="hyd-reset wkt-btn" onclick="wktQuit()" data-i18n="wkt-quit">End workout</button>
+            </div>
+          </div>
+          <div class="card glass-card">
+            <div class="u-section-h" data-i18n="wkt-progress">Progress</div>
+            <div id="wktProgress"></div>
+          </div>
+          <div id="wktSummary" hidden>
+            <div class="card glass-card" style="text-align:center">
+              <div class="wkt-done-mark">✓</div>
+              <h3 data-i18n="wkt-finished">Workout complete!</h3>
+              <p class="u-muted13" id="wktSummaryText"></p>
+              <button class="hyd-btn" onclick="wktBackToList()" data-i18n="wkt-back">Done</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-content" id="page-nutrition" data-od-id="screen-nutrition">
+        <div class="deco-ring r1"></div><div class="deco-ring r2"></div>
+        <div class="sub-top">
+          <button class="sub-back" onclick="closeMorePage()" aria-label="Back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+          </button>
+        </div>
+        <div class="sub-hero glass-card">
+          <div class="more-icon big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20C4 10 10 4 20 4c0 10-6 16-16 16z"/><path d="M4 20c4-6 8-9 12-11"/></svg></div>
+          <h3 data-i18n="more-nutrition">Nutrition</h3>
+          <p class="u-muted13" data-i18n="nut-hero">Log meals and track daily calories.</p>
+        </div>
+
+        <div class="card glass-card">
+          <div class="u-section-h" data-i18n="nut-today">Today</div>
+          <div class="meal-chips" id="mealChips"></div>
+          <div id="mealToday"></div>
+          <div class="meal-total" id="mealTotal"></div>
+        </div>
+
+        <div class="card glass-card">
+          <div class="u-section-h" data-i18n="nut-stats">Statistics</div>
+          <div class="hyd-cal-head">
+            <button class="hyd-reset" onclick="mealCalOffsetBy(-1)" aria-label="Previous month">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            <div class="hyd-cal-title" id="mealCalTitle"></div>
+            <button class="hyd-reset" onclick="mealCalOffsetBy(1)" aria-label="Next month">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+          </div>
+          <div class="hyd-cal-week" id="mealCalWeek"></div>
+          <div class="hyd-cal-grid" id="mealCalGrid"></div>
+          <div class="u-muted13" style="text-align:center;margin-top:10px" id="mealCalStats"></div>
+        </div>
+      </div>
+
+      <div class="page-content" id="page-hydration" data-od-id="screen-hydration">
+        <div class="deco-ring r1"></div><div class="deco-ring r2"></div>
+        <div class="sub-top">
+          <button class="sub-back" onclick="closeMorePage()" aria-label="Back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+          </button>
+        </div>
+        <div class="sub-hero glass-card">
+          <div class="more-icon big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></svg></div>
+          <h3 data-i18n="more-hydration">Hydration</h3>
+          <p class="u-muted13" id="hydGoalLabel">Your hydration space will live here.</p>
+        </div>
+
+        <div class="card glass-card">
+          <div class="u-section-h" data-i18n="hyd-weight">Your weight</div>
+          <div style="display:flex;gap:10px;align-items:center">
+            <input class="ps-name" id="hydWeight" type="number" inputmode="decimal" min="20" max="300" step="0.5" placeholder="70" data-i18n-ph="hyd-weight-ph" autocomplete="off" style="flex:1;text-align:left" onkeydown="if(event.key==='Enter')saveHydWeight()">
+            <span style="font-weight:700;color:var(--text-muted)">kg</span>
+            <button class="hyd-btn" style="flex:0 0 auto;padding:14px 20px" onclick="saveHydWeight()" data-i18n="hyd-save">Save</button>
+          </div>
+        </div>
+
+        <div class="card glass-card">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div class="u-section-h" data-i18n="hyd-today">Today</div>
+            <button class="hyd-reset" onclick="resetHydration()" aria-label="Reset">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+            </button>
+          </div>
+          <div style="text-align:center;padding:10px 0">
+            <span id="hydMl" style="font-size:38px;font-weight:900;font-variant-numeric:tabular-nums">0</span>
+            <span style="color:var(--text-muted);font-size:14px"> / <span id="hydGoal">2500</span> ml</span>
+          </div>
+          <div class="level-bar glass-progress"><div class="fill glass-progress-bar" id="hydBar" style="width:0%"></div></div>
+          <div class="hyd-drops" id="hydDrops"></div>
+          <p class="u-muted13" style="text-align:center" id="hydGlasses">0 / 10 glasses</p>
+          <div class="hyd-row">
+            <button class="hyd-btn" onclick="addHydration(250)" data-i18n="hyd-add-glass">+ 250 ml</button>
+            <button class="hyd-btn alt" onclick="addHydration(500)" data-i18n="hyd-add-bottle">+ 500 ml</button>
+          </div>
+          <p class="hyd-done-msg" id="hydDone" data-i18n="hyd-done" hidden>Daily goal reached!</p>
+        </div>
+
+        <div class="card glass-card">
+          <div class="hyd-cal-head">
+            <button class="hyd-reset" onclick="hydCalOffsetBy(-1)" aria-label="Previous month">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            <div class="hyd-cal-title" id="hydCalTitle">August 2026</div>
+            <button class="hyd-reset" onclick="hydCalOffsetBy(1)" aria-label="Next month">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+          </div>
+          <div class="hyd-cal-week" id="hydCalWeek"></div>
+          <div class="hyd-cal-grid" id="hydCalGrid"></div>
+          <div class="u-muted13" style="text-align:center;margin-top:10px" id="hydCalStats"></div>
+        </div>
+      </div>
+
+      <div class="page-content" id="page-sleep" data-od-id="screen-sleep">
+        <div class="deco-ring r1"></div><div class="deco-ring r2"></div>
+        <div class="sub-top">
+          <button class="sub-back" onclick="closeMorePage()" aria-label="Back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+          </button>
+        </div>
+        <div class="sub-hero glass-card">
+          <div class="more-icon big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></div>
+          <h3 data-i18n="more-sleep">Sleep</h3>
+          <p class="u-muted13" id="sleepGoalLabel">Your sleep space will live here.</p>
+        </div>
+
+        <div class="card glass-card">
+          <div class="u-section-h" data-i18n="sleep-log">Log last night</div>
+          <div style="display:flex;gap:10px">
+            <div class="sleep-field">
+              <span data-i18n="sleep-bed">Bedtime</span>
+              <input class="ps-name" type="time" id="sleepBed" value="23:00" style="text-align:center;padding:12px">
+            </div>
+            <div class="sleep-field">
+              <span data-i18n="sleep-wake">Wake up</span>
+              <input class="ps-name" type="time" id="sleepWake" value="07:00" style="text-align:center;padding:12px">
+            </div>
+          </div>
+          <button class="hyd-btn" onclick="saveSleep()" data-i18n="sleep-save">Save night</button>
+          <p class="u-muted13" style="text-align:center" id="sleepDurLabel"></p>
+        </div>
+
+        <div class="card glass-card">
+          <div class="hyd-cal-head">
+            <button class="hyd-reset" onclick="sleepCalOffsetBy(-1)" aria-label="Previous month">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            <div class="hyd-cal-title" id="sleepCalTitle">August 2026</div>
+            <button class="hyd-reset" onclick="sleepCalOffsetBy(1)" aria-label="Next month">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+          </div>
+          <div class="hyd-cal-week" id="sleepCalWeek"></div>
+          <div class="hyd-cal-grid" id="sleepCalGrid"></div>
+          <div class="u-muted13" style="text-align:center;margin-top:10px" id="sleepCalStats"></div>
+        </div>
+      </div>
+
+      <div class="page-content" id="page-clock" data-od-id="screen-clock">
+        <div class="deco-ring r1"></div><div class="deco-ring r2"></div>
+        <div class="sub-top">
+          <button class="sub-back" onclick="closeMorePage()" aria-label="Back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+          </button>
+        </div>
+        <div class="sub-hero glass-card">
+          <div class="more-icon big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+          <h3 data-i18n="more-clock">Clock</h3>
+          <p class="u-muted13" data-i18n="more-clock-page">Current time and stopwatch.</p>
+        </div>
+
+        <div class="card glass-card">
+          <div class="u-section-h" data-i18n="clock-time">Current time</div>
+          <div class="clock-face">
+            <div class="clock-time" id="clockTime">--:--:--</div>
+            <div class="clock-date" id="clockDate"></div>
+          </div>
+        </div>
+
+        <div class="card glass-card">
+          <div class="u-section-h" data-i18n="clock-stopwatch">Stopwatch</div>
+          <div class="clock-face">
+            <div class="clock-time sw" id="swTime">00:00:00.0</div>
+          </div>
+          <div class="sw-controls">
+            <button class="hyd-btn" id="swStart" onclick="swToggle()" data-i18n="clock-start">Start</button>
+            <button class="hyd-reset sw-btn" onclick="swLap()" data-i18n="clock-lap">Lap</button>
+            <button class="hyd-reset sw-btn" onclick="swReset()" data-i18n="clock-reset">Reset</button>
+          </div>
+          <div class="u-section-h" style="margin-top:18px" data-i18n="clock-laps">Laps</div>
+          <p class="u-muted13" style="text-align:center" id="swLapsEmpty" data-i18n="clock-no-laps">No laps yet</p>
+          <div class="sw-laps" id="swLaps"></div>
+        </div>
+      </div>
+
+      <div class="page-content" id="page-agenda" data-od-id="screen-agenda">
+        <div class="deco-ring r1"></div><div class="deco-ring r2"></div>
+        <div class="sub-top">
+          <button class="sub-back" onclick="closeMorePage()" aria-label="Back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+          </button>
+        </div>
+        <div class="sub-hero glass-card">
+          <div class="more-icon big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div>
+          <h3 data-i18n="more-agenda">Agenda</h3>
+          <p class="u-muted13" data-i18n="agenda-hero">Plan your days and never miss an event.</p>
+        </div>
+
+        <div class="card glass-card">
+          <div class="hyd-cal-head">
+            <button class="hyd-reset" onclick="agCalOffsetBy(-1)" aria-label="Previous month">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            <div class="hyd-cal-title" id="agCalTitle"></div>
+            <button class="hyd-reset" onclick="agCalOffsetBy(1)" aria-label="Next month">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+          </div>
+          <div class="hyd-cal-week" id="agCalWeek"></div>
+          <div class="hyd-cal-grid" id="agCalGrid"></div>
+        </div>
+
+        <div class="card glass-card">
+          <div class="u-section-h" id="agendaDayTitle"></div>
+          <div id="agendaList"></div>
+        </div>
+
+        <div class="card glass-card">
+          <div class="u-section-h" data-i18n="agenda-add">Add event</div>
+          <div class="u-field" style="margin-bottom:10px">
+            <input class="glass-input u-input" type="text" id="agTitle" placeholder="Event title" data-i18n-ph="agenda-title-ph">
+          </div>
+          <div style="display:flex;gap:10px;margin-bottom:12px">
+            <div class="sleep-field">
+              <span data-i18n="agenda-date">Date</span>
+              <input class="ps-name" type="date" id="agDate" style="text-align:center;padding:10px">
+            </div>
+            <div class="sleep-field">
+              <span data-i18n="agenda-time">Time</span>
+              <input class="ps-name" type="time" id="agTime" value="12:00" style="text-align:center;padding:10px">
+            </div>
+          </div>
+          <button class="hyd-btn" onclick="addAgEvent()" data-i18n="agenda-add-btn">Add</button>
+        </div>
+      </div>
+
+      <div class="page-content" id="page-profile" data-od-id="screen-profile">
+        <div class="deco-ring r1"></div><div class="deco-ring r2"></div>
+        <div class="profile-header">
+          <div class="avatar" id="profileFace"><span class="avatar-face-icon" id="profileFaceIcon">▲</span><img id="profilePhoto" class="avatar-img" alt="" hidden></div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="profile-name" style="font-size:22px;font-weight:700">Alex Rider</div>
+            <button onclick="showProfileSetup('edit')" aria-label="Edit profile" style="background:none;border:none;color:var(--text-muted);cursor:pointer;padding:4px;display:flex">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 3a2.83 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+            </button>
+          </div>
+          <div class="profile-quote" id="profileQuote" hidden></div>
+        </div>
+        <div class="profile-menu">
+          <div class="profile-menu-item glass-surface" onclick="openModal('settingsModal')">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+            <span data-i18n="profile-settings">Settings</span> <span class="arrow">→</span>
+          </div>
+          <div class="profile-menu-item glass-surface">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <span data-i18n="profile-community">Community</span> <span class="arrow">→</span>
+          </div>
+          <div class="profile-menu-item glass-surface">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <span data-i18n="profile-privacy">Privacy & Data</span> <span class="arrow">→</span>
+          </div>
+          <div class="profile-menu-item glass-surface">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+            <span data-i18n="profile-about">About Disciply</span> <span class="arrow">→</span>
+          </div>
+          <div class="profile-menu-item glass-surface" style="color:var(--danger)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            <span data-i18n="profile-signout">Sign Out</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="fab" onclick="openModal('fabMenu')">+</button>
+    </div>
+
+    <!-- FAB MENU -->
+    <div class="modal-overlay" id="fabMenu" data-od-id="modal-fab">
+      <div class="modal-sheet glass-modal">
+        <div class="modal-handle"></div>
+        <button class="close-btn" onclick="closeModal('fabMenu')" aria-label="Close fab menu">×</button>
+        <div class="fab-actions">
+          <div class="fab-action" onclick="openAddHabit()">
+            <div class="fab-action-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
+            <div>
+              <div class="fab-action-name" data-i18n="fab-new-habit">New Habit</div>
+              <div class="u-muted13" data-i18n="fab-new-habit-sub">Build discipline across the 6 areas</div>
+            </div>
+            <span class="arrow">→</span>
+          </div>
+          <div class="fab-action" onclick="closeModal('fabMenu');openModal('workoutModal')">
+            <div class="fab-action-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 9.5v5M4 8v8M20 8v8M22 9.5v5M4 12h16"/></svg></div>
+            <div>
+              <div class="fab-action-name" data-i18n="fab-log-workout">Log Workout</div>
+              <div class="u-muted13" data-i18n="fab-log-workout-sub">Track a training session</div>
+            </div>
+            <span class="arrow">→</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADD HABIT MODAL -->
+    <div class="modal-overlay" id="addHabitModal" data-od-id="modal-add-habit">
+      <div class="modal-sheet glass-modal">
+        <div class="modal-handle"></div>
+        <button class="close-btn" onclick="closeModal('addHabitModal')" aria-label="Close add habit modal">×</button>
+        <h2 data-i18n="ah-title">New Habit</h2>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div class="u-field">
+            <label class="u-label" data-i18n="ah-name">Habit name</label>
+            <input class="glass-input u-input" id="ahName" type="text" maxlength="60" placeholder="e.g. Morning Run" data-i18n-ph="ah-placeholder-name" autocomplete="off">
+          </div>
+          <div class="u-field">
+            <label class="u-label" data-i18n="ah-desc">Description</label>
+            <input class="glass-input u-input" id="ahDesc" type="text" maxlength="120" placeholder="What does this habit look like?" data-i18n-ph="ah-placeholder-desc" autocomplete="off">
+          </div>
+          <div class="u-field">
+            <label class="u-label" data-i18n="ah-area">Area</label>
+            <div class="ah-areas" id="ahAreas"></div>
+          </div>
+          <p class="ah-xp" id="ahXpHint">Completing it gives 20 XP</p>
+          <button class="ah-add" onclick="addHabitFromForm()" data-i18n="ah-add">Add Habit</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- WORKOUT MODAL -->
+    <div class="modal-overlay" id="workoutModal" data-od-id="modal-workout">
+      <div class="modal-sheet glass-modal">
+        <div class="modal-handle"></div>
+        <button class="close-btn" onclick="closeModal('workoutModal')" aria-label="Close workout modal">×</button>
+        <h2 data-i18n="workout-title">Log Workout</h2>
+        <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+          <button style="padding:8px 16px;border-radius:var(--radius-sm);border:1px solid var(--accent);background:transparent;color:var(--accent);font-size:13px;font-weight:600;font-family:var(--font);cursor:pointer" data-i18n="workout-strength">Strength</button>
+          <button class="u-ghost-btn" data-i18n="workout-cardio">Cardio</button>
+          <button class="u-ghost-btn" data-i18n="workout-hiit">HIIT</button>
+          <button class="u-ghost-btn" data-i18n="workout-yoga">Yoga</button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div class="u-field">
+            <input class="glass-input u-input" type="text" value="Bench Press" placeholder="Exercise name" data-i18n-ph="workout-ex-name">
+          </div>
+          <div class="u-row">
+            <div class="u-field-row">
+              <span class="u-muted13" data-i18n="workout-sets">Sets</span>
+              <input class="glass-input u-input-row" type="text" value="4">
+            </div>
+            <div class="u-field-row">
+              <span class="u-muted13" data-i18n="workout-reps">Reps</span>
+              <input class="glass-input u-input-row" type="text" value="10">
+            </div>
+            <div class="u-field-row">
+              <span class="u-muted13" data-i18n="workout-kg">kg</span>
+              <input class="glass-input u-input-row" type="text" value="80">
+            </div>
+          </div>
+          <div class="u-field">
+            <input class="glass-input u-input" type="text" value="Squat" placeholder="Exercise name" data-i18n-ph="workout-ex-name">
+          </div>
+          <div class="u-row">
+            <div class="u-field-row">
+              <span class="u-muted13" data-i18n="workout-sets">Sets</span>
+              <input class="glass-input u-input-row" type="text" value="4">
+            </div>
+            <div class="u-field-row">
+              <span class="u-muted13" data-i18n="workout-reps">Reps</span>
+              <input class="glass-input u-input-row" type="text" value="8">
+            </div>
+            <div class="u-field-row">
+              <span class="u-muted13" data-i18n="workout-kg">kg</span>
+              <input class="glass-input u-input-row" type="text" value="100">
+            </div>
+          </div>
+        </div>
+        <button style="width:100%;padding:16px;border-radius:var(--radius-md);border:none;background:var(--accent);color:var(--bg-primary);font-size:15px;font-weight:600;cursor:pointer;font-family:var(--font);margin-top:16px"><span data-i18n="workout-save">Save Workout</span>  <span style="color:rgba(0,0,0,0.6)">+120 XP</span></button>
+      </div>
+    </div>
+
+    <!-- FOCUS TIMER MODAL -->
+    <div class="modal-overlay" id="focusModal" data-od-id="modal-focus">
+      <div class="modal-sheet glass-modal">
+        <div class="modal-handle"></div>
+        <button class="close-btn" onclick="closeModal('focusModal')" aria-label="Close focus timer">×</button>
+        <h2 data-i18n="focus-title">Focus Timer</h2>
+        <div style="display:flex;gap:8px;margin-bottom:8px">
+          <div class="tabs glass-surface" style="flex:1;border-radius:var(--radius-sm)" role="tablist">
+            <button class="active u-btn-sm" role="tab" aria-selected="true" data-i18n="focus-pomodoro">Pomodoro</button>
+            <button class="u-btn-sm" role="tab" aria-selected="false" data-i18n="focus-deepwork">Deep Work</button>
+            <button class="u-btn-sm" role="tab" aria-selected="false" data-i18n="focus-custom">Custom</button>
+          </div>
+        </div>
+        <div class="timer-display">25:00</div>
+        <div style="text-align:center;color:var(--text-muted);font-size:13px;margin-bottom:16px" data-i18n="focus-session">Focus · Session #4 today</div>
+        <div class="timer-controls">
+          <button class="start" data-i18n="focus-start">Start</button>
+          <button class="pause" data-i18n="focus-reset">Reset</button>
+        </div>
+        <div style="margin-top:20px;padding:16px;background:var(--bg-secondary);border-radius:var(--radius-md)">
+          <div style="font-size:13px;font-weight:600;margin-bottom:8px" data-i18n="focus-today">Today's Focus</div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--text-secondary)">
+            <span data-i18n="focus-total">Total focus time</span><span class="u-bold">2h 15m</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--text-secondary);margin-top:4px">
+            <span data-i18n="focus-sessions">Sessions completed</span><span class="u-bold">4</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SETTINGS MODAL -->
+    <div class="modal-overlay" id="settingsModal" data-od-id="modal-settings">
+      <div class="modal-sheet glass-modal">
+        <div class="modal-handle"></div>
+        <button class="close-btn" onclick="closeModal('settingsModal')" aria-label="Close settings">×</button>
+        <h2 data-i18n="settings-title">Settings</h2>
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div class="profile-menu-item glass-surface" onclick="openProfilePage()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span data-i18n="settings-profile">Profile</span> <span class="arrow">→</span>
+          </div>
+          <div class="profile-menu-item glass-surface" onclick="openProfileSetup()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="5"/><path d="M3 21a9 9 0 0 1 18 0"/></svg>
+            <span data-i18n="settings-edit-profile">Edit Profile</span> <span class="arrow">→</span>
+          </div>
+          <div class="profile-menu-item glass-surface" onclick="toggleDark()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+            <span data-i18n="settings-dark-mode">Dark Mode</span>
+            <span style="margin-left:auto;display:flex;align-items:center;gap:8px">
+              <span id="darkSwitch"><span id="darkKnob"></span></span>
+            </span>
+          </div>
+          <div class="profile-menu-item glass-surface" onclick="toggleLang()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <span data-i18n="settings-language">Language</span>
+            <span style="margin-left:auto">
+              <button class="lang-toggle" aria-label="Language">
+                <span data-lt="en">EN</span><span class="lt-sep">/</span><span data-lt="ro">RO</span>
+              </button>
+            </span>
+          </div>
+          <div class="profile-menu-item glass-surface">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            <span data-i18n="settings-notifications">Notifications</span>
+            <span style="margin-left:auto"><span style="width:40px;height:22px;background:var(--accent);border-radius:14px;display:inline-block;position:relative"><span style="position:absolute;right:3px;top:2px;width:18px;height:18px;border-radius:50%;background:#fff"></span></span></span>
+          </div>
+          <div class="profile-menu-item glass-surface">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span data-i18n="settings-export">Export Data</span> <span class="arrow">→</span>
+          </div>
+          <div class="profile-menu-item glass-surface">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+            <span data-i18n="settings-api">API Keys</span> <span class="arrow">→</span>
+          </div>
+          <div class="profile-menu-item glass-surface">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+            <span data-i18n="settings-about">About & Licenses</span> <span class="arrow">→</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom nav -->
+  <div class="bottom-nav glass-nav" id="bottomNav" style="display:none" data-od-id="bottom-nav">
+    <button class="active" data-tab="home" onclick="switchTab('home')">
+      <svg viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+      <span data-i18n="tab-home">Home</span>
+    </button>
+    <button data-tab="more" onclick="switchTab('more')">
+      <svg viewBox="0 0 24 24"><circle cx="5" cy="5" r="2"/><circle cx="12" cy="5" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="12" cy="19" r="2"/><circle cx="19" cy="19" r="2"/></svg>
+      <span data-i18n="tab-more">More</span>
+    </button>
+  </div>
+
+  <!-- Home indicator -->
+  <div class="home-indicator"></div>
+</div>
+
+<script src="js/i18n.js"></script>
+<script src="js/questions.js"></script>
+<script src="js/app.js"></script>
+<script src="js/onboarding.js"></script>
+<script src="js/navigation.js"></script>
+<script src="js/hydration.js"></script>
+<script src="js/sleep.js"></script>
+<script src="js/clock.js"></script>
+<script src="js/workout.js"></script>
+<script src="js/nutrition.js"></script>
+<script src="js/agenda.js"></script>
+<script src="js/habits.js"></script>
+<script src="js/modals.js"></script>
+<script src="js/profile.js"></script>
+</body>
+</html>
