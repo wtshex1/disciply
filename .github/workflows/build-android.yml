@@ -32,6 +32,9 @@ jobs:
           sdkmanager --install "ndk;27.3.13750724"
           echo "NDK_HOME=$ANDROID_HOME/ndk/27.3.13750724" >> $GITHUB_ENV
 
+      - name: Install frontend dependencies
+        run: npm ci
+
       - uses: Swatinem/rust-cache@v2
         with:
           workspaces: src-tauri
