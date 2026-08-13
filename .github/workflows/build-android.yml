@@ -42,7 +42,10 @@ jobs:
       - name: Init Android project
         run: npx tauri android init --ci
 
-      - name: Apply official app icons (override template defaults)
+      - name: Generate official icons from source
+        run: npx tauri icon icons-manifest.json -o src-tauri/icons
+
+      - name: Apply icons to Android project (override template defaults)
         run: |
           set -e
           for d in mdpi hdpi xhdpi xxhdpi xxxhdpi; do
