@@ -45,7 +45,31 @@ jobs:
       - name: Build APK
         run: npx tauri android build --apk --target aarch64
 
+      - name: Verify APK signature and sign if missing
+        run: |
+          set -euo pipefail
+          APK=$(find src-tauri/gen/android/app/build/outputs/apk -name "*.apk" | grep -viE "unsigned|debug" | head -1)
+          echo "APK found: $APK"
+          APKSIGNER=$(ls "$ANDROID_HOME"/build-tools/*/apksigner | tail -1)
+          ZIPALIGN=$(ls "$ANDROID_HOME"/build-tools/*/zipalign | tail -1)
+          if "$APKSIGNER" verify --print-certs "$APK" > /dev/null 2>&1; then
+            echo "APK is signed, keeping as-is"
+            cp "$APK" Disciply-1.0.0-arm64.apk
+          else
+            echo "APK is unsigned, signing it"
+            keytool -genkeypair -v -keystore disciply.keystore -alias disciply \
+              -keyalg RSA -keysize 2048 -validity 10000 \
+              -storepass disciply123 -keypass disciply123 \
+              -dname "CN=Disciply, OU=Disciply, O=Disciply, L=, S=, C=RO" > /dev/null 2>&1
+            "$ZIPALIGN" -f 4 "$APK" aligned.apk
+            "$APKSIGNER" sign --ks disciply.keystore --ks-key-alias disciply \
+              --ks-pass pass:disciply123 --key-pass pass:disciply123 \
+              --out Disciply-1.0.0-arm64.apk aligned.apk
+          fi
+          "$APKSIGNER" verify --print-certs Disciply-1.0.0-arm64.apk | head -4
+          ls -lh Disciply-1.0.0-arm64.apk
+
       - uses: actions/upload-artifact@v4
         with:
           name: disciply-android-arm64
-          path: src-tauri/gen/android/app/build/outputs/apk/**/*.apk
+          path: Disciply-1.0.0-arm64.apk
