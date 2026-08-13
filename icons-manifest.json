@@ -1,4 +1,6 @@
 {
   "default": "disciply-icon.svg",
-  "bg_color": "#0F0F0F"
+  "bg_color": "#0F0F0F",
+  "android_fg": "disciply-fg.png",
+  "android_fg_scale": 100
 }
