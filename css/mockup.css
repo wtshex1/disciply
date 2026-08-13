@@ -80,7 +80,11 @@ html.app-mode .phone::after{display:none}
 html.app-mode .dynamic-island{display:none}
 html.app-mode .home-indicator{display:none}
 html.app-mode #statusBar{display:none !important}
-html.app-mode .screen-area{padding-top:env(safe-area-inset-top)}
+html.app-mode .screen-area{overflow:hidden}
+html.app-mode .page-content,
+html.app-mode .screen{
+  padding-top:calc(20px + max(env(safe-area-inset-top, 0px), 26px))
+}
 
 /* Real-device safe areas: status bar, notch, gesture nav bar */
 html.app-mode .bottom-nav{
@@ -94,8 +98,8 @@ html.app-mode .modal-sheet{
   padding-bottom:calc(24px + env(safe-area-inset-bottom))
 }
 html.app-mode .shell-header{
-  height:calc(56px + env(safe-area-inset-top));
-  padding-top:env(safe-area-inset-top)
+  height:calc(56px + max(env(safe-area-inset-top, 0px), 20px));
+  padding-top:max(env(safe-area-inset-top, 0px), 20px)
 }
 html.app-mode .more-header{
   padding-top:calc(20px + env(safe-area-inset-top))
