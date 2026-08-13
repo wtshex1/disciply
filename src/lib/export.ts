@@ -1,4 +1,5 @@
 import { db } from '../db'
+import { isTauri } from '@tauri-apps/api/core'
 
 export interface ExportPayload {
   app: 'disciply'
@@ -45,7 +46,25 @@ export async function exportAllData(): Promise<boolean> {
   try {
     const payload = await collectAllData()
     const stamp = new Date().toISOString().slice(0, 10)
-    downloadJson(`disciply-backup-${stamp}.json`, payload)
+    const filename = `disciply-backup-${stamp}.json`
+    const json = JSON.stringify(payload, null, 2)
+
+    const inTauri = isTauri()
+    if (!inTauri) {
+      downloadJson(filename, payload)
+      return true
+    }
+
+    const [{ save }, { writeTextFile }] = await Promise.all([
+      import('@tauri-apps/plugin-dialog'),
+      import('@tauri-apps/plugin-fs')
+    ])
+    const dest = await save({
+      defaultPath: filename,
+      filters: [{ name: 'Disciply backup', extensions: ['json'] }]
+    })
+    if (!dest) return true
+    await writeTextFile(dest, json)
     return true
   } catch (e) {
     console.error('export failed', e)
