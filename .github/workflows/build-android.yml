@@ -42,6 +42,15 @@ jobs:
       - name: Init Android project
         run: npx tauri android init --ci
 
+      - name: Apply official app icons (override template defaults)
+        run: |
+          set -e
+          for d in mdpi hdpi xhdpi xxhdpi xxxhdpi; do
+            cp src-tauri/icons/android/mipmap-$d/* src-tauri/gen/android/app/src/main/res/mipmap-$d/
+          done
+          cp -r src-tauri/icons/android/mipmap-anydpi-v26 src-tauri/gen/android/app/src/main/res/
+          cp src-tauri/icons/android/values/ic_launcher_background.xml src-tauri/gen/android/app/src/main/res/values/
+
       - name: Build APK
         run: npx tauri android build --apk --target aarch64
 
