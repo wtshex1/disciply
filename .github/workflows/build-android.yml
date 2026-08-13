@@ -48,13 +48,14 @@ jobs:
       - name: Verify APK signature and sign if missing
         run: |
           set -euo pipefail
-          APK=$(find src-tauri/gen/android/app/build/outputs/apk -name "*.apk" | grep -viE "unsigned|debug" | head -1)
+          APK=$(find src-tauri/gen/android/app/build/outputs/apk -type f -name "*.apk" | grep -v debug | head -1)
+          test -n "$APK" || { echo "No APK found"; exit 1; }
           echo "APK found: $APK"
-          APKSIGNER=$(ls "$ANDROID_HOME"/build-tools/*/apksigner | tail -1)
-          ZIPALIGN=$(ls "$ANDROID_HOME"/build-tools/*/zipalign | tail -1)
-          if "$APKSIGNER" verify --print-certs "$APK" > /dev/null 2>&1; then
+          APKSIGNER=$(ls -1 "$ANDROID_HOME"/build-tools/*/apksigner | tail -1)
+          ZIPALIGN=$(ls -1 "$ANDROID_HOME"/build-tools/*/zipalign | tail -1)
+          if "$APKSIGNER" verify "$APK" > /dev/null 2>&1; then
             echo "APK is signed, keeping as-is"
-            cp "$APK" Disciply-1.0.0-arm64.apk
+            cp "$APK" Disciply-1.0.0.apk
           else
             echo "APK is unsigned, signing it"
             keytool -genkeypair -v -keystore disciply.keystore -alias disciply \
@@ -64,12 +65,12 @@ jobs:
             "$ZIPALIGN" -f 4 "$APK" aligned.apk
             "$APKSIGNER" sign --ks disciply.keystore --ks-key-alias disciply \
               --ks-pass pass:disciply123 --key-pass pass:disciply123 \
-              --out Disciply-1.0.0-arm64.apk aligned.apk
+              --out Disciply-1.0.0.apk aligned.apk
           fi
-          "$APKSIGNER" verify --print-certs Disciply-1.0.0-arm64.apk | head -4
-          ls -lh Disciply-1.0.0-arm64.apk
+          "$APKSIGNER" verify --print-certs Disciply-1.0.0.apk | head -3
+          ls -lh Disciply-1.0.0.apk
 
       - uses: actions/upload-artifact@v4
         with:
-          name: disciply-android-arm64
-          path: Disciply-1.0.0-arm64.apk
+          name: disciply-android
+          path: Disciply-1.0.0.apk
