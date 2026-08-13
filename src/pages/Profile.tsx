@@ -22,7 +22,7 @@ function calcStreak(dates: string[]): number {
   return streak
 }
 
-export default function Profile({ setView, onEdit, onSignOut }: { setView: (v: View) => void; onEdit: () => void; onSignOut: () => void }) {
+export default function Profile({ setView, onSignOut }: { setView: (v: View) => void; onSignOut: () => void }) {
   useProfile()
   const name = profileName()
   const photo = profilePhoto()
@@ -47,12 +47,7 @@ export default function Profile({ setView, onEdit, onSignOut }: { setView: (v: V
             ? <img src={photo} className="avatar-img" alt="" style={{ display: 'block' }} />
             : <span className="avatar-face-icon" id="profileFaceIcon">▲</span>}
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <div className="profile-name" style={{ fontSize: 22, fontWeight: 700 }}>{name}</div>
-          <button className="ps-skip" id="profileEditBtn" onClick={onEdit} aria-label="Edit profile">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
-          </button>
-        </div>
+        <div className="profile-name" style={{ fontSize: 22, fontWeight: 700 }}>{name}</div>
         {quote && <div className="profile-quote" id="profileQuote">&#8220;{quote}&#8221;</div>}
         {result && (
           <div className="profile-score-chip" id="profileScore">

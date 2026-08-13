@@ -4,7 +4,7 @@ import { useLang } from '../lib/useLang'
 import { toggleDark, applyDark } from '../theme'
 import { exportAllData } from '../lib/export'
 
-export default function SettingsModal({ closeModal, onDiscovery, onEditProfile }: { closeModal: () => void; onDiscovery: () => void; onEditProfile: () => void }) {
+export default function SettingsModal({ closeModal, onDiscovery, onProfile }: { closeModal: () => void; onDiscovery: () => void; onProfile: () => void }) {
   const lang = useLang()
   const [exportStatus, setExportStatus] = useState<'idle' | 'done' | 'failed'>('idle')
   useEffect(() => { applyDark() }, [])
@@ -20,13 +20,9 @@ export default function SettingsModal({ closeModal, onDiscovery, onEditProfile }
         <button className="close-btn" onClick={closeModal} aria-label="Close settings">×</button>
         <h2>{t('settings-title')}</h2>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-          <div className="profile-menu-item glass-surface" onClick={onEditProfile}>
+          <div className="profile-menu-item glass-surface" onClick={onProfile}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             <span>{t('settings-profile')}</span> <span className="arrow">→</span>
-          </div>
-          <div className="profile-menu-item glass-surface" onClick={onEditProfile}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="5"/><path d="M3 21a9 9 0 0 1 18 0"/></svg>
-            <span>{t('settings-edit-profile')}</span> <span className="arrow">→</span>
           </div>
           <div className="profile-menu-item glass-surface" onClick={toggleDark}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
