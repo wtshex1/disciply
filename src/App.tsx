@@ -21,15 +21,15 @@ import Facial from './pages/Facial'
 import AddItem from './pages/AddItem'
 import SettingsModal from './components/SettingsModal'
 import WorkoutModal from './components/WorkoutModal'
-import { loadProfile } from './lib/profile'
+import { loadProfile, removeProfile } from './lib/profile'
 
 export type View =
   | { page: 'home' }
   | { page: 'progress' }
   | { page: 'allcal' }
-  | { page: 'habit'; id: number; from?: 'home' | 'progress' }
-  | { page: 'objective'; id: number; from?: 'home' | 'progress' }
-  | { page: 'reason'; id: number; from?: 'home' | 'progress' }
+  | { page: 'habit'; id: number; from?: 'home' | 'progress' | 'profile' }
+  | { page: 'objective'; id: number; from?: 'home' | 'progress' | 'profile' }
+  | { page: 'reason'; id: number; from?: 'home' | 'progress' | 'profile' }
   | { page: 'more' }
   | { page: 'sub'; id: 'workout' | 'nutrition' | 'hydration' | 'sleep' | 'clock' | 'agenda' | 'facial' }
   | { page: 'add'; type?: 'objective' | 'habit' }
@@ -117,7 +117,7 @@ export default function App() {
           {view.page === 'sub' && view.id === 'agenda' && <Agenda setView={setView} />}
           {view.page === 'sub' && view.id === 'facial' && <Facial setView={setView} />}
           {view.page === 'add' && <AddItem setView={setView} initialType={view.type} />}
-          {view.page === 'profile' && <Profile setView={setView} />}
+          {view.page === 'profile' && <Profile setView={setView} onEdit={() => { setStage('profile'); setView({ page: 'home' }) }} onSignOut={() => { removeProfile(); setStage('onboarding'); setView({ page: 'home' }) }} />}
 
           {view.page !== 'profile' && view.page !== 'progress' && view.page !== 'allcal' && view.page !== 'habit' && view.page !== 'objective' && view.page !== 'reason' && view.page !== 'add' && (
             <button className="fab" onClick={() => setFabMenu(true)}>+</button>
@@ -152,7 +152,7 @@ export default function App() {
       )}
 
       {modal === 'workout' && <WorkoutModal closeModal={closeModal} />}
-      {modal === 'settings' && <SettingsModal closeModal={closeModal} onDiscovery={() => { setStage('onboarding'); setView({ page: 'home' }) }} />}
+      {modal === 'settings' && <SettingsModal closeModal={closeModal} onDiscovery={() => { setStage('onboarding'); setView({ page: 'home' }) }} onEditProfile={() => { setStage('profile'); setView({ page: 'home' }) }} />}
 
       <div className="bottom-nav glass-nav" id="bottomNav" style={{ display: 'flex' }}>
         <button className={view.page === 'home' ? 'active' : ''} data-tab="home" onClick={() => setView({ page: 'home' })}>

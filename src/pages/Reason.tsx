@@ -4,7 +4,7 @@ import { db, type GoalItem } from '../db'
 import { goalIcon } from '../lib/icons'
 import type { View } from '../App'
 
-export default function Reason({ id, from, setView }: { id: number; from?: 'home' | 'progress'; setView: (v: View) => void }) {
+export default function Reason({ id, from, setView }: { id: number; from?: 'home' | 'progress' | 'profile'; setView: (v: View) => void }) {
   const [goal, setGoal] = useState<GoalItem | null>(null)
   const [text, setText] = useState('')
   const [saving, setSaving] = useState(false)
@@ -22,19 +22,19 @@ export default function Reason({ id, from, setView }: { id: number; from?: 'home
     setSaving(true)
     await db.goals.update(goal.id, { blocked: true, done: false, blockedReason: text.trim() })
     setSaving(false)
-    setView({ page: from === 'progress' ? 'progress' : 'home' })
+    setView({ page: from === 'progress' ? 'progress' : from === 'profile' ? 'profile' : 'home' })
   }
 
   const clear = async () => {
     if (!goal || goal.id == null) return
     await db.goals.update(goal.id, { blocked: false, blockedReason: undefined })
-    setView({ page: from === 'progress' ? 'progress' : 'home' })
+    setView({ page: from === 'progress' ? 'progress' : from === 'profile' ? 'profile' : 'home' })
   }
 
   return (
     <div className="page-content active" id="page-reason" data-od-id="screen-reason">
       <div className="sub-top">
-        <button className="sub-back" onClick={() => setView({ page: from === 'progress' ? 'progress' : 'home' })} aria-label="Back">
+        <button className="sub-back" onClick={() => setView({ page: from === 'progress' ? 'progress' : from === 'profile' ? 'profile' : 'home' })} aria-label="Back">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
         </button>
       </div>

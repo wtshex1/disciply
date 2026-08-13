@@ -17,6 +17,42 @@
 
 .profile-header .avatar {
   position: relative;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  background: var(--bg-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 12px 32px -12px rgba(0, 0, 0, 0.35);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.profile-header .avatar-face-icon {
+  font-size: 30px;
+  color: var(--text-muted);
+}
+
+.profile-score-chip {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.profile-score-val {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.profile-score-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 600;
 }
 
 .avatar-img {

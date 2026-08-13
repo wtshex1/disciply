@@ -469,7 +469,15 @@ export const I18N: Record<"en" | "ro", Record<string, string>> = {
     'export-done': 'Data exported',
     'export-failed': 'Export failed',
     'settings-api': 'API Keys',
-    'settings-about': 'About & Licenses'
+    'settings-about': 'About & Licenses',
+    'profile-score': 'Potential score',
+    'profile-objectives': 'Objectives',
+    'profile-habits': 'Habits',
+    'profile-modules': 'Your life modules',
+    'profile-no-objectives': 'No objectives yet. Create one from Progress.',
+    'profile-signout-confirm': 'Sign out? Your local data stays on this device.',
+    'habit-done-today': 'Done today',
+    'habit-pending-today': 'Not done today'
   },
   ro: {
     'onboarding-welcome-title': 'Descoper\u0103-\u021bi poten\u021bialul',
@@ -928,7 +936,15 @@ export const I18N: Record<"en" | "ro", Record<string, string>> = {
     'export-done': 'Date exportate',
     'export-failed': 'Export e\u0219uat',
     'settings-api': 'Chei API',
-    'settings-about': 'Despre \u0219i licen\u021be'
+    'settings-about': 'Despre \u0219i licen\u021be',
+    'profile-score': 'Scorul poten\u021bialului',
+    'profile-objectives': 'Obiective',
+    'profile-habits': 'Obiceiuri',
+    'profile-modules': 'Modulele vie\u021bii tale',
+    'profile-no-objectives': 'Niciun obiectiv \u00eenc\u0103. Creeaz\u0103 unul din Progres.',
+    'profile-signout-confirm': 'Te deconectezi? Datele locale r\u0103m\u00e2n pe acest dispozitiv.',
+    'habit-done-today': 'F\u0103cut azi',
+    'habit-pending-today': 'Nef\u0103cut azi'
   }
 }
 
