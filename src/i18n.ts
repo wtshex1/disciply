@@ -474,10 +474,11 @@ export const I18N: Record<"en" | "ro", Record<string, string>> = {
     'profile-objectives': 'Objectives',
     'profile-habits': 'Habits',
     'profile-modules': 'Your life modules',
-    'profile-no-objectives': 'No objectives yet. Create one from Progress.',
-    'profile-signout-confirm': 'Sign out? Your local data stays on this device.',
-    'habit-done-today': 'Done today',
-    'habit-pending-today': 'Not done today'
+    'profile-best-streak': '{0} day streak',
+    'profile-best-streak-label': 'Best streak',
+    'profile-stats-objectives': 'Objectives done',
+    'profile-stats-habits': 'Habits today',
+    'profile-signout-confirm': 'Sign out? Your local data stays on this device.'
   },
   ro: {
     'onboarding-welcome-title': 'Descoper\u0103-\u021bi poten\u021bialul',
@@ -941,10 +942,11 @@ export const I18N: Record<"en" | "ro", Record<string, string>> = {
     'profile-objectives': 'Obiective',
     'profile-habits': 'Obiceiuri',
     'profile-modules': 'Modulele vie\u021bii tale',
-    'profile-no-objectives': 'Niciun obiectiv \u00eenc\u0103. Creeaz\u0103 unul din Progres.',
-    'profile-signout-confirm': 'Te deconectezi? Datele locale r\u0103m\u00e2n pe acest dispozitiv.',
-    'habit-done-today': 'F\u0103cut azi',
-    'habit-pending-today': 'Nef\u0103cut azi'
+    'profile-best-streak': 'Serie de {0} zile',
+    'profile-best-streak-label': 'Cea mai lung\u0103 serie',
+    'profile-stats-objectives': 'Obiective finalizate',
+    'profile-stats-habits': 'Obiceiuri azi',
+    'profile-signout-confirm': 'Te deconectezi? Datele locale r\u0103m\u00e2n pe acest dispozitiv.'
   }
 }
 
