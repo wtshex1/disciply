@@ -60,7 +60,7 @@ export default function Profile({ setView, onSignOut }: { setView: (v: View) => 
         <div className="hero-info">
           <div className="hero-name" id="profileName">{name}</div>
           {quote && <div className="profile-quote" id="profileQuote">&#8220;{quote}&#8221;</div>}
-          <div className="hero-streak" id="profileStreak">🔥 {t('profile-best-streak').replace('{0}', String(bestStreak))}</div>
+          <div className="hero-streak" id="profileStreak">{t('profile-best-streak').replace('{0}', String(bestStreak))}</div>
         </div>
         {result && (
           <div className="profile-ring" id="profileScore">
@@ -100,7 +100,7 @@ export default function Profile({ setView, onSignOut }: { setView: (v: View) => 
             {CATEGORIES.map((c, i) => (
               <div className="result-bar-row" key={c.key} style={{ marginBottom: 6 }}>
                 <span className="rb-name">{catName(c)}</span>
-                <div className="rb-track"><span style={{ width: vals[i] + '%', background: c.color }}></span></div>
+                <div className="rb-track"><span style={{ width: vals[i] + '%' }}></span></div>
                 <span className="rb-pct">{vals[i]}%</span>
               </div>
             ))}
