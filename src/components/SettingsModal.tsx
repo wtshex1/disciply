@@ -1,11 +1,18 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { t, toggleLangNow } from '../i18n'
 import { useLang } from '../lib/useLang'
 import { toggleDark, applyDark } from '../theme'
+import { exportAllData } from '../lib/export'
 
 export default function SettingsModal({ closeModal }: { closeModal: () => void }) {
   const lang = useLang()
+  const [exportStatus, setExportStatus] = useState<'idle' | 'done' | 'failed'>('idle')
   useEffect(() => { applyDark() }, [])
+  const onExport = async () => {
+    const ok = await exportAllData()
+    setExportStatus(ok ? 'done' : 'failed')
+    setTimeout(() => setExportStatus('idle'), 2500)
+  }
   return (
     <div className="modal-overlay active" id="settingsModal" data-od-id="modal-settings" onClick={closeModal}>
       <div className="modal-sheet glass-modal" onClick={e => e.stopPropagation()}>
@@ -42,9 +49,10 @@ export default function SettingsModal({ closeModal }: { closeModal: () => void }
             <span>{t('settings-notifications')}</span>
             <span style={{ marginLeft: 'auto' }}><span style={{ width: 40, height: 22, background: 'var(--accent)', borderRadius: 14, display: 'inline-block', position: 'relative' }}><span style={{ position: 'absolute', right: 3, top: 2, width: 18, height: 18, borderRadius: '50%', background: '#fff' }}></span></span></span>
           </div>
-          <div className="profile-menu-item glass-surface">
+          <div className="profile-menu-item glass-surface" onClick={onExport}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            <span>{t('settings-export')}</span> <span className="arrow">→</span>
+            <span>{exportStatus === 'done' || exportStatus === 'failed' ? (exportStatus === 'done' ? t('export-done') : t('export-failed')) : t('settings-export')}</span>
+            <span className="arrow">{exportStatus === 'done' ? '✓' : exportStatus === 'failed' ? '!' : '→'}</span>
           </div>
           <div className="profile-menu-item glass-surface">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>

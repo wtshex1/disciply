@@ -465,6 +465,8 @@ export const I18N: Record<"en" | "ro", Record<string, string>> = {
     'settings-dark-red': 'Dark · Red',
     'settings-notifications': 'Notifications',
     'settings-export': 'Export Data',
+    'export-done': 'Data exported',
+    'export-failed': 'Export failed',
     'settings-api': 'API Keys',
     'settings-about': 'About & Licenses'
   },
@@ -921,6 +923,8 @@ export const I18N: Record<"en" | "ro", Record<string, string>> = {
     'settings-dark-red': '\u00centunecat \u00b7 Ro\u0219u',
     'settings-notifications': 'Notific\u0103ri',
     'settings-export': 'Export\u0103 datele',
+    'export-done': 'Date exportate',
+    'export-failed': 'Export e\u0219uat',
     'settings-api': 'Chei API',
     'settings-about': 'Despre \u0219i licen\u021be'
   }
