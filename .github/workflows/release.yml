@@ -1,0 +1,40 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    uses: ./.github/workflows/build-android.yml
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: disciply-android
+          path: artifact
+
+      - name: Package APK
+        run: |
+          set -euo pipefail
+          APK=$(ls artifact/*.apk | head -1)
+          test -n "$APK"
+          mkdir -p out
+          cp "$APK" "out/Disciply-${GITHUB_REF_NAME}.apk"
+          ls -lh out
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          gh release create "$GITHUB_REF_NAME" out/*.apk \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "Disciply $GITHUB_REF_NAME" \
+            --generate-notes
