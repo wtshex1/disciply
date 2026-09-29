@@ -1,0 +1,18 @@
+[versions]
+# IMPORTANT: keep these aligned with the Haze release notes.
+# Haze 2.0.0-alpha04+ publishes haze-glass; it is built against CMP 1.11.x / Kotlin 2.3.x.
+# If the build fails on version mismatch, check https://github.com/chrisbanes/haze/releases first.
+kotlin = "2.3.21"
+compose = "1.11.1"
+haze = "2.0.0-alpha04"
+
+[libraries]
+haze-core = { group = "dev.chrisbanes.haze", name = "haze", version.ref = "haze" }
+haze-blur = { group = "dev.chrisbanes.haze", name = "haze-blur", version.ref = "haze" }
+haze-blur-materials = { group = "dev.chrisbanes.haze", name = "haze-blur-materials", version.ref = "haze" }
+haze-glass = { group = "dev.chrisbanes.haze", name = "haze-glass", version.ref = "haze" }
+
+[plugins]
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
